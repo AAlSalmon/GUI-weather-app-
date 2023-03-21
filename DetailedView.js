@@ -16,54 +16,47 @@ import HourlyForecast from './HourlyForecast';
 
 function DetailedView({navigation, route}) {
 
+    const {temp} = route.params; // Determines the temperatrue
+    const {icon} = route.params; // Determines the Image displayed 
+    const {weatherDesc} = route.params; // Determines the weathers description 
+    const {humidity} = route.params; // Determines the humidity 
 
-
-
-    const [jockyDetails, setJockeyDetails] = useState([
-        {jockyDetails: "Rain", key: '1'},
-        {jockyDetails: "Muddiness", key: '2'},
-        {jockyDetails: "Humidity", key: '3'},
-        {jockyDetails: "Windspeed", key: '4'},
-        {jockyDetails: "etc", key: '5'},
-        {jockyDetails: "etc", key: '6'},
-        {jockyDetails: "etc", key: '7'},
-    ])
-
-    const {temp} = route.params;
+    var tempVar = Math.round(temp-273.15) // Is used to store temp variable after mathematical changes so it can be readable.
 
     return (
-        <View style={styles.containter}>
-            {/* <Text style={styles.IconBox}>General Icon (Cloudy, Rainy, etc)</Text> */}
-            <Image 
-                source={
-                    require('/Users/abdullahalsalem/GUIweatherAppEleven/app/assets/WeatherIcon.jpeg')} 
-                    style={{
-                    // flex:1,
-                    width: 100,
-                    height: 100,
-                    alignContent: 'center'
-                    // resizeMode: 'cover'
-                }}
-            />
-            <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
-                <Text>{temp}</Text>
-            </TouchableOpacity>
-            <Text>Location</Text>
-            <HourlyForecast />
-            <Text>"Suitable for racing" Prompt</Text>
+        <ImageBackground source={require('/Users/abdullahalsalem/GUIweatherAppEleven/app/assets/DetailsViewBackground.jpeg')} style={styles.containter}>
+            {
+                icon == "Clouds" ? <Image 
+                    source={require('/Users/abdullahalsalem/GUIweatherAppEleven/app/assets/Clouds.png')} 
+                    style={styles.ImageBox}/> 
+                    : 
+                icon == "Rain" ? <Image 
+                    source={require('/Users/abdullahalsalem/GUIweatherAppEleven/app/assets/Rain.png')} 
+                    style={styles.ImageBox}/>
+                    : 
+                icon == "Clear" ? <Text>Image For Clear</Text> : <Text> NULL VALUE </Text>
+            }
+            <Text style={styles.CelsiusBox}>{tempVar}°C</Text>
+            <Text style={styles.DescriptionBox}>{weatherDesc}</Text>
+            <View style={styles.ImageBox1}>{
+                icon == "Rain" ? <Image style={styles.ImageBox2} source={require('/Users/abdullahalsalem/GUIweatherAppEleven/app/assets/NotSuitable.png')}/>
+                 :
+                 <Image style={styles.ImageBox2} source={require('/Users/abdullahalsalem/GUIweatherAppEleven/app/assets/tick2.png')}/>
+            }</View>
+            <Text style={styles.PromptBox}> 
+                {
+                    icon == "Rain" ? <Text>Not suitable for racing</Text> : <Text>Suitable for racing</Text>
+                }
+            </Text>
             <View style={styles.DetailedBox}>
-                <Text>Jocky Details Box</Text>
-                {/* <Text>Rain</Text>
-                <Text>Muddiness (Very muddy, etc)</Text> */}
-                <FlatList 
-                    numColumns={3}
-                    data={jockyDetails}
-                    renderItem={({item}) => (
-                        <Text style={styles.JBox}>{item.jockyDetails}</Text>
-                    )}
-                />
+                <Text style={{textAlign:'center', padding: 10, fontWeight: 'bold'}}>Jocky Details Box</Text>
+                <Text style={styles.JBox}>Rain: {icon == "Rain" ? weatherDesc : <Text>Not Raining</Text>}</Text>
+                <Text style={styles.JBox}>Muddiness: {icon == "Rain" ? <Text> is muddy</Text> : <Text>is not Muddy</Text>}</Text>
+                <Text style={styles.JBox}>Humidity: {humidity}%</Text>
+                <Text style={styles.JBox}>Temperature affect on the Horse: {tempVar > -15 || tempVar < 25 ? <Text>Negligable</Text> : tempVar < -15 ? <Text>Extremely Cold</Text> : tempVar > 25 ? <Text>Extremely Hot</Text> : null}</Text>
+                <Text style={styles.JBox}>Temperature affect on the Ground: {tempVar > -15 || tempVar < 25 ? <Text>Normal</Text> : tempVar < -15 ? <Text>Extremely Hard</Text> : tempVar > 25 ? <Text>Extremely Soft</Text> : null}</Text>
             </View>
-        </View>        
+        </ImageBackground>        
     );
 }
 
@@ -75,39 +68,57 @@ const styles = StyleSheet.create({
         flexDirection:'column',
         alignItems: 'center',
         // paddingTop: 0,
-        backgroundColor: 'white',
         justifyContent: 'space-evenly'
     },
-    IconBox:{
-        padding:10,
-        backgroundColor: 'lightblue'
+    ImageBox:{ // Keep (The box for the Icon at the top )
+        // flex:1,
+        width: 110,
+        height: 110,
+        alignContent: 'center'
+        // resizeMode: 'cover'
     },
-    DetailedBox:{
+    DetailedBox:{ // Keep (The box that contains the JBoxes for details)
+        flex: 0.3, 
         padding:10,
         backgroundColor: 'beige',
-        minHeight: 480,
-        minWidth: 400
-    },
-    HourlyForecastBox:{
-        flex: 1,
-        padding:10,
-        backgroundColor: 'orange',
+        minHeight: 420,
         minWidth: 400,
-        justifyContent: 'space-between',
-        flexDirection:'row',
-        alignContent: 'center',
-        alignItems: 'center'
-    },
-    HoursBox:{
-        borderColor: 'black',
-        borderWidth: 3,
-        padding: 15,
-        margin: 10,
-        backgroundColor: 'lightblue'
-    },
-    JBox:{
-        margin: 30,
-        padding:10,
+        borderRadius: 5
+    },    
+    JBox:{ // Keep (The JBoxes that have the jocket details specifics)
+        margin: 5,
+        padding:15,
         backgroundColor: 'orange'
+    },
+    CelsiusBox:{// For the degrees celsius 
+        fontWeight: 'bold',
+        padding: 10,
+        fontSize: 20
+        // backgroundColor: 'blue'
+    },
+    DescriptionBox:{ // For the weather description
+        fontWeight: 'bold',
+        padding: 10,
+        fontSize: 20,
+        backgroundColor: 'rgba(255,255,255,0.2)',
+        borderRadius: 10
+    },
+    PromptBox:{ // For the prompt
+        fontWeight: 'bold',
+        padding: 10,
+        fontSize: 20,
+        backgroundColor: 'rgba(255,255,255,0.2)',
+        borderRadius: 10
+    },
+    ImageBox1:{
+        height: 50,
+        width: 50,
+    },
+    ImageBox2:{
+        flex: 1, 
+        height: 50, 
+        width: 50, 
+        resizeMode:'cover'
     }
+
 })

@@ -4,6 +4,8 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import MapView, { Callout, Circle, Marker } from "react-native-maps"
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import * as Location from 'expo-location';
+
 
 export default function Map({navigation}) {
 
@@ -28,26 +30,38 @@ export default function Map({navigation}) {
 		
 		<View style={{ marginTop: 50, flex: 1 }}>
 			<GooglePlacesAutocomplete
-				placeholder="Search"
+				placeholder="Please enter the location whose weather you want to see"
 				fetchDetails={true}
 				GooglePlacesSearchQuery={{
 					rankby: "distance"
 				}}
 				onPress={(data, details = null) => {
 					// 'details' is provided when fetchDetails = true //details.geometry.location.lat/lng
-					console.log(data,"--------------------", details.geometry.location.lng)
+					// console.log(data,"--------------------", details.geometry.location.lng)
+					console.log("LONGITUDE:", details.geometry.location.lng)
+					console.log("LATITUDE:", details.geometry.location.lat)
 
 					setLatitude(details.geometry.location.lat);
 					setLongitude(details.geometry.location.lng);
+
+					console.log(details, "|---|-|-|-|-|-|-|-|-|--|-|-|-|-|-|-|-|-|-|---|", data)
+					console.log(details.address_components[details.address_components.length-5])
+					console.log(data.description.split(",")[0])
+
 
 					setRegion({
 						latitude: details.geometry.location.lat,
 						longitude: details.geometry.location.lng,
 						latitudeDelta: 0.0922,
 						longitudeDelta: 0.0421
-					})
+					}) 
 
-					navigation.navigate("HomeScreen")
+					navigation.navigate("HomeScreen", {
+						lng: details.geometry.location.lng, 
+						lat: details.geometry.location.lat,
+						city: details.address_components[details.address_components.length-5].short_name, //Gets city name, stupid asf but aye it works
+						loc: data.description.split(",")[0]
+						})
 				}}
 				query={{
 					key: "AIzaSyC-5jwkIJFTQ2Myg0BN3JlD-bGNcwcWdZE",
