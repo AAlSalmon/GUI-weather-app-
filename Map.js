@@ -12,13 +12,11 @@ export default function Map({navigation}) {
 	let [ latitude, setLatitude] = React.useState(51.507351)
 	let [ longitude, setLongitude] = React.useState(-0.127758)
 
-	// console.log(latitude)
-	// console.log(longitude)
-
 	const [ pin, setPin ] = React.useState({
 		latitude: latitude,
 		longitude: longitude
 	})
+
 	const [ region, setRegion ] = React.useState({
 		latitude: latitude,
 		longitude: longitude,
@@ -36,17 +34,16 @@ export default function Map({navigation}) {
 					rankby: "distance"
 				}}
 				onPress={(data, details = null) => {
-					// 'details' is provided when fetchDetails = true //details.geometry.location.lat/lng
-					// console.log(data,"--------------------", details.geometry.location.lng)
+					
 					console.log("LONGITUDE:", details.geometry.location.lng)
 					console.log("LATITUDE:", details.geometry.location.lat)
 
 					setLatitude(details.geometry.location.lat);
 					setLongitude(details.geometry.location.lng);
 
-					console.log(details, "|---|-|-|-|-|-|-|-|-|--|-|-|-|-|-|-|-|-|-|---|", data)
-					console.log(details.address_components[details.address_components.length-5])
-					console.log(data.description.split(",")[0])
+					// console.log(details, "|---|-|-|-|-|-|-|-|-|--|-|-|-|-|-|-|-|-|-|---|", data)
+					// console.log(details.address_components[details.address_components.length-5])
+					// console.log(data.description.split(",")[0])
 
 
 					setRegion({
