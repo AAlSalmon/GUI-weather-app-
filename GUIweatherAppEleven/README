@@ -1,0 +1,18 @@
+Running Instructions 
+
+Prerequisites: Phone with Expo App to scan QR Code
+
+1. Download the GUIweatherAppEleven file in its entirety and then open it in your VSCode, and open terminal and make sure terminal is 
+on GUIweatherAppEleven directory
+
+2. Type: 'node -v' into terminal and wait for it to load
+
+3. Type: 'sudo npm i -g expo-cli' and wait for it to load
+
+4. Type: 'sudo npm start' and when given the option to press 'Y' (capital y), this will give you a QR code
+
+5. Scan said QR Code with camera and click open with Expo. 
+
+6. It should open it up afterwards. 
+
+NOTE: All of these commands are mac based, so use the equivilent of them for your Operating System. 
