@@ -3,10 +3,8 @@ import { View,
          ImageBackground, 
          Image, 
          StyleSheet, 
-         SafeAreaView, 
          TouchableOpacity,
-         Text,
-         FlatList
+         Text
        } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -14,14 +12,13 @@ import { useState, useEffect } from 'react';
 
 
 function FifDayView({navigation, route}) {
+  // This screen shows the weather 15 days in advance for the jockey to view
 
-    const {test} = route.params.test;
+    const [city2, setCity2] = useState(route.params.city) // Is used to get the cityID for the API Call
 
-    const [city2, setCity2] = useState(route.params.city)
+    let [cityID, setCityID] = useState(city2);  // Is used to get the cityID for the API Call
 
-    let [cityID, setCityID] = useState(city2);
-
-    const [fifDayData, setFifDayData] = useState();
+    const [fifDayData, setFifDayData] = useState(); // Stores the values of the weather 15 days in advance (the data)
 
     useEffect(() => {
         fetch(`https://pro.openweathermap.org/data/2.5/forecast/climate?q=${cityID}&appid=a8007d417a83d1024caf3513b131c698&cnt=30`)
@@ -31,14 +28,14 @@ function FifDayView({navigation, route}) {
     }, [])
 
 
-    var date = new Date(); // DATE -------v
+    var date = new Date(); // date object to create dates
 
-    var currentDate = new Date(date.setTime( date.getTime() + 0 * 86400000 )); 
+    var currentDate = new Date(date.setTime( date.getTime() + 0 * 86400000 )); // gets current date
 
-    let balls = 14;
+    let balls = 14; // A counter used for incrementing values in the array
 
 
-    const [days, setDays] = useState([
+    const [days, setDays] = useState([ // the days array, which prints the dates in advance (15 days)
         { date: new Date(date.setTime( date.getTime() + 14 * 86400000 )), icon: balls = balls+1, key: 'Monday'},
         { date: new Date(date.setTime( date.getTime() + 1 * 86400000 )), icon: balls = balls+1, key: 'Tuesday'},
         { date: new Date(date.setTime( date.getTime() + 1 * 86400000 )), icon: balls = balls+1, key: 'Wednesday'},
@@ -49,7 +46,7 @@ function FifDayView({navigation, route}) {
     ]);
   
 
-    const renderHeader = () => (
+    const renderHeader = () => ( // For the header (the tites of the columns, date, temp, etc)
         <View style={styles.row}>
           <Text style={styles.headerCell}>Date</Text>
           <Text style={styles.headerCell}>Temp</Text>
@@ -59,9 +56,9 @@ function FifDayView({navigation, route}) {
       );
 
     return (
-        <ImageBackground style={styles.parentView} source={require('../../../app/assets/DetailsViewBackground.jpeg')}>
+        <ImageBackground style={styles.container} source={require('../../../app/assets/DetailsViewBackground.jpeg')}>
         {
-            fifDayData ? <ImageBackground style={styles.parentView} source={require('/Users/abdullahalsalem/GUIweatherAppEleven/app/assets/DetailsViewBackground.jpeg')}>
+            fifDayData ? <ImageBackground style={styles.container} source={require('../../../app/assets/DetailsViewBackground.jpeg')}>
                 {/* <Text style={styles.titleView}>15 Day in Advance View</Text> */}
                 <View>{renderHeader()}</View>
                 {
@@ -97,59 +94,28 @@ function FifDayView({navigation, route}) {
 export default FifDayView;
 
 const styles = StyleSheet.create({
-    container: {
-      padding: 16,
-    },
-    row: {
+    row: { // Turns the array into rows 
       flexDirection: 'row',
       justifyContent: 'space-between',
       borderBottomWidth: 1,
       borderBottomColor: '#ccc',
       paddingVertical:30,
     },
-    cell: {
+    cell: { // Styles the individual cells of data
       flex: 1,
       textAlign: 'center',
       padding: 5,
       fontWeight: 'bold'
     },
-    parentView:{
+    container:{ // the general container
         flex: 1
     },
-    titleView:{
-        borderColor: 'black',
-        borderWidth: 5,
-        flex: 0.08,
-        backgroundColor: 'yellow'
-    },
-    tableView:{
-        borderColor: 'black',
-        borderWidth: 5,
-        flex: 1,
-        backgroundColor: 'lightgreen',
-        flexDirection:'column',
-        alignItems: 'center',
-        justifyContent: 'space-evenly'
-    },
-    DaysBox:{
-        margin: 30,
-        padding:10,
-        backgroundColor: 'orange'
-    },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-        paddingVertical: 8,
-        marginBottom: 16,
-      },
-      headerCell: {
+      headerCell: { // Styles the header titles
         flex: 1,
         fontWeight: 'bold',
         textAlign: 'center',
       },
-      ImageBox:{
+      ImageBox:{ // Styles the images shown in the weather column
         flex: 1, 
         height: 50, 
         width: 40, 
