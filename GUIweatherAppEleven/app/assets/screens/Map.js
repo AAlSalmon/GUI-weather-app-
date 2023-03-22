@@ -9,13 +9,10 @@ import * as Location from 'expo-location';
 
 export default function Map({navigation}) {
 
-	let [ latitude, setLatitude] = React.useState(51.507351)
-	let [ longitude, setLongitude] = React.useState(-0.127758)
+	// This screen is for the location, specifically getting the auto complete search bar using Google API
 
-	const [ pin, setPin ] = React.useState({
-		latitude: latitude,
-		longitude: longitude
-	})
+	let [ latitude, setLatitude] = React.useState(51.507351) // Sets Latitdue
+	let [ longitude, setLongitude] = React.useState(-0.127758) // Sets Longitude
 
 	const [ region, setRegion ] = React.useState({
 		latitude: latitude,
@@ -43,7 +40,7 @@ export default function Map({navigation}) {
 
 					// console.log(details, "|---|-|-|-|-|-|-|-|-|--|-|-|-|-|-|-|-|-|-|---|", data)
 					// console.log(details.address_components[details.address_components.length-5])
-					// console.log(data.description.split(",")[0])
+					// console.log(data.description.split(",")[0]) // TESTING PURPOSES
 
 
 					setRegion({
@@ -83,28 +80,6 @@ export default function Map({navigation}) {
 				}}
 				provider="google"
 			>
-				<Marker coordinate={{ latitude: latitude, longitude: longitude }} />
-				<Marker
-					coordinate={pin}
-					pinColor="black"
-					draggable={true}
-					onDragStart={(e) => {
-						console.log("Drag start", e.nativeEvent.coordinates)
-					}}
-					onDragEnd={(e) => {
-						setPin({
-							// latitude: e.nativeEvent.coordinate.latitude,
-							// longitude: e.nativeEvent.coordinate.longitude
-							latitude: latitude,
-							longitude: longitude
-						})
-					}}
-				>
-					<Callout>
-						<Text>I'm here</Text>
-					</Callout>
-				</Marker>
-				<Circle center={pin} radius={1000} />
 			</MapView>
 		</View>
 	)
