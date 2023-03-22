@@ -3,18 +3,11 @@ import { View,
          ImageBackground, 
          Image, 
          StyleSheet, 
-         SafeAreaView, 
          TouchableOpacity,
-         Pressable,
-         TextInput,
-         ScrollView,
-         Alert,
-         ActivityIndicator,
          Text
        } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Header } from 'react-native/Libraries/NewAppScreen';
 import HourlyForecast from './HourlyForecast';
 
 function HomeScreen({navigation, route}) {
@@ -51,7 +44,7 @@ function HomeScreen({navigation, route}) {
         .catch(err => console.log(err))
     }, [])
 
-    var date = new Date(); // Creates date object
+    var date = new Date(); // Creates date object 
 
     var currentDate = new Date(date.setTime( date.getTime() + 0 * 86400000 )); // gets current date 
 
@@ -164,11 +157,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(199, 144, 42, 0.7)',
         width: 350
     },
-    testBox1View:{
+    testBox1View:{ // Styles the view containing the icons inside the 15 day forecast box 
         height: 20, 
         width: 20,
     },
-    ImageBoxTEST: {
+    ImageBoxTEST: { // Styles the icons inside the 15 day forecast box 
         flex: 1, 
         height: 25, 
         width: 25, 
