@@ -8,9 +8,9 @@ import { View,
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useState } from 'react';
-import HourlyForecast from './HourlyForecast';
 
 function DetailedView({navigation, route}) {
+    //This is the detailed view screen, which shows the detailed weather forecast with details specific to jockeys
 
     const {temp} = route.params; // Determines the temperatrue
     const {icon} = route.params; // Determines the Image displayed 
@@ -20,7 +20,7 @@ function DetailedView({navigation, route}) {
     var tempVar = Math.round(temp-273.15) // Is used to store temp variable after mathematical changes so it can be readable.
 
     return (
-        <ImageBackground source={require('../../../app/assets/DetailsViewBackground.jpeg')} style={styles.containter}>
+        <ImageBackground source={require('../../../app/assets/DetailsViewBackground.jpeg')} style={styles.containter}> 
             {
                 icon == "Clouds" ? <Image 
                     source={require('../../../app/assets/Clouds.png')} 
@@ -59,8 +59,8 @@ function DetailedView({navigation, route}) {
 export default DetailedView;
 
 const styles = StyleSheet.create({
-    containter:{
-        flex: 1,
+    containter:{ // The general container style 
+        flex: 1, 
         flexDirection:'column',
         alignItems: 'center',
         // paddingTop: 0,
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },    
     JBox:{ // Keep (The JBoxes that have the jocket details specifics)
-        margin: 5,
+        margin: 10,
         padding:15,
         backgroundColor: 'orange'
     },
@@ -116,5 +116,4 @@ const styles = StyleSheet.create({
         width: 50, 
         resizeMode:'cover'
     }
-
 })
